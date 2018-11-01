@@ -7,7 +7,7 @@ class LocalSearch:
         """ Read the penalty matrix and initial solution and compute the best solution"""
         self.solution = Solution(initial_solution, penalty_matrix)
 
-    def do_local_search2(self):
+    def do_local_search_bi(self):
         improved = True
         while improved:
             improved = False
@@ -18,13 +18,11 @@ class LocalSearch:
                 if value > best_improvement:
                     best_improvement = value
                     best_candidate = i
-
             if best_candidate != -1:
                 self.solution.flip_solution(best_candidate)
-                #improved = True
+                improved = True
 
-
-    def do_local_search(self):
+    def do_local_search_fi(self):
         improved = True
         while improved:
             improved = False

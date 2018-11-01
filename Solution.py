@@ -22,15 +22,16 @@ class Solution:
         return self.delta[0, position]
 
     def flip_solution(self, position):
+        self.value += self.delta[0, position]
         if self.solution[0, position] == 0:
             self.solution[0, position] = 1
         else:
             self.solution[0, position] = 0
-        self.value += self.delta[0, position]
         self.update_delta(position)
 
     def create_delta(self):
         for i in range(self.size):
+            self.delta[0, i] = 0
             if self.solution[0, i] == 0:
                 self.delta[0, i] += self.penalty_matrix[i, i]
             else:
@@ -39,22 +40,20 @@ class Solution:
             for j in range(self.size):
                 if i != j:
                     if self.solution[0, i] == 1 and self.solution[0, j] == 1:
-                        self.delta[0, i] -= self.penalty_matrix[i, j]
+                        self.delta[0, i] -= (self.penalty_matrix[i, j] + self.penalty_matrix[j, i])
                     if self.solution[0, i] == 0 and self.solution[0, j] == 1:
-                        self.delta[0, i] += self.penalty_matrix[i, j]
+                        self.delta[0, i] += (self.penalty_matrix[i, j] + self.penalty_matrix[j, i])
 
     def update_delta(self, position):
         self.delta[0, position] = -self.delta[0, position]
         for i in range(self.size):
             if position != i:
                 if self.solution[0, position] == 1 and self.solution[0, i] == 1:
-                    self.delta[0, i] -= self.penalty_matrix[position, i]
+                    self.delta[0, i] -= (self.penalty_matrix[position, i] + self.penalty_matrix[i, position])
                 if self.solution[0, position] == 1 and self.solution[0, i] == 0:
-                    self.delta[0, i] += self.penalty_matrix[position, i]
+                    self.delta[0, i] += (self.penalty_matrix[position, i] + self.penalty_matrix[i, position])
 
                 if self.solution[0, position] == 0 and self.solution[0, i] == 1:
-                    self.delta[0, i] += self.penalty_matrix[position, i]
+                    self.delta[0, i] += (self.penalty_matrix[position, i] + self.penalty_matrix[i, position])
                 if self.solution[0, position] == 0 and self.solution[0, i] == 0:
-                    self.delta[0, i] -= self.penalty_matrix[position, i]
-
-
+                    self.delta[0, i] -= (self.penalty_matrix[position, i] + self.penalty_matrix[i, position])

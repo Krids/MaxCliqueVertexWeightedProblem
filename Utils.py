@@ -1,5 +1,6 @@
 import networkx as nx
 import numpy as np
+import random
 
 
 # Read and prepare the instance
@@ -55,6 +56,27 @@ def get_empty_initial_solution(adjacency_matrix):
     return initial_solution
 
 
+def get_random_clique_initial_solution(penalty_matrix):
+    initial_solution = np.zeros((1, len(penalty_matrix)))
+    rdn_initial_position = random.randint(0, penalty_matrix.shape[0]+1)
+    ones_list = [rdn_initial_position]
+    start = 0
+    initial_solution[0, rdn_initial_position] = 1
+    while start != len(penalty_matrix):
+        if initial_solution[0, start] == 0:
+            violation = False
+            for j in ones_list:
+                if penalty_matrix[j, start] != 0 or penalty_matrix[start, j] != 0:
+                    violation = True
+                    break
+
+            if not violation:
+                ones_list.append(start)
+                initial_solution[0, start] = 1
+        start += 1
+    return initial_solution
+
+
 def get_neighbors(initial_solution):
     neighbors = np.tile(initial_solution, (initial_solution.shape[1], 1))
     for i in range(initial_solution.shape[1]):
@@ -64,3 +86,5 @@ def get_neighbors(initial_solution):
             neighbors[i, i] = 1.
     print(neighbors)
     return neighbors
+
+
