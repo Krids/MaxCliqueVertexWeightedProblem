@@ -78,3 +78,24 @@ class InitialSolution:
                     self.initial_solution[0, count] = 1
             count += 1
         return self.initial_solution
+
+    def get_random_clique_initial_solution_with_random_walking(self):
+        """ Return a random clique for the initial solution"""
+        self.initial_solution = np.zeros((1, len(self.penalty_matrix)))
+        rdn_initial_position = random.randint(0, self.penalty_matrix.shape[0] + 1)
+        ones_list = [rdn_initial_position]
+        self.initial_solution[0, rdn_initial_position] = 1
+        rdn_walking = np.arange(0, self.penalty_matrix.shape[1], 1)
+        random.shuffle(rdn_walking)
+        for i, x in enumerate(rdn_walking):
+            if self.initial_solution[0, x] == 0:
+                violation = False
+                for j in ones_list:
+                    if self.penalty_matrix[j, x] != 0 or self.penalty_matrix[x, j] != 0:
+                        violation = True
+                        break
+
+                if not violation:
+                    ones_list.append(i)
+                    self.initial_solution[0, x] = 1
+        return self.initial_solution
