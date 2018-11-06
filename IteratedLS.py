@@ -1,30 +1,30 @@
 # Imports
 from LocalSearch import LocalSearch
-import time
+from InitialSolution import InitialSolution
+import datetime
 
 
 class IteratedLS:
 
-    def __init__(self, initial_solution, penalty_matrix, max_time):
-        self.solution = initial_solution
-        self.local_search = LocalSearch(initial_solution, penalty_matrix)
+    def __init__(self, penalty_matrix, max_time):
+        self.penalty_matrix = penalty_matrix
+        self.is_ = InitialSolution(penalty_matrix)
+        ls = LocalSearch(self.is_.get_random_clique_initial_solution_with_random_start(), penalty_matrix)
+        ls.do_local_search_bi()
+        self.value = ls.solution.value
+        self.solution = ls.solution.solution
+        self.best_solution = self.solution
         self.max_time = max_time
 
-    def do_local_seach_iterated(self):
-        # Variables to keep track and display
-        seconds = 0
-        minutes = 0
-        # Begin Process
+    def do_local_search_iterated(self):
+        end_time = datetime.datetime.now() + datetime.timedelta(minutes=self.max_time)
         while True:
-            self.local_search.do_local_search_bi()
-            self.solution = self.local_search.solution.solution
-            # TODO Pertubar a solução
-            # TODO Aplicar a busca local
-            # TODO Verificar resultado (Se melhor, salvar)
-            seconds += 1
-            time.sleep(1)
-            if seconds == 60:
-                seconds = 0
-                minutes += 1
-            if minutes == self.max_time:
+            if datetime.datetime.now() >= end_time:
                 break
+
+            self.solution = self.is_.get_random_clique_initial_solution_with_random_start()
+            local_search = LocalSearch(self.solution, self.penalty_matrix)
+            local_search.do_local_search_bi()
+            if local_search.solution.value >= self.value:
+                self.best_solution = self.solution
+                self.value = local_search.solution.value
