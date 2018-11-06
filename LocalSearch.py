@@ -8,6 +8,7 @@ class LocalSearch:
         self.solution = Solution(initial_solution, penalty_matrix)
 
     def do_local_search_bi(self):
+        """ Make a best improvement localsearch on the initial solution"""
         improved = True
         while improved:
             improved = False
@@ -23,6 +24,7 @@ class LocalSearch:
                 improved = True
 
     def do_local_search_fi(self):
+        """ Make a first improvement localsearch on the initial solution"""
         improved = True
         while improved:
             improved = False
@@ -30,4 +32,4 @@ class LocalSearch:
                 if self.solution.flip_value(i) > 0:
                     self.solution.flip_solution(i)
                     improved = True
-                    break  # First improvement
+                    break
