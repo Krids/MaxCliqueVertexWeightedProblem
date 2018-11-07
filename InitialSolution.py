@@ -94,7 +94,7 @@ class InitialSolution:
         return self.initial_solution
 
     def __get_random_clique_initial_solution_with_random_walking(self):
-        """ Return a random clique for the initial solution"""
+        """ Return a random clique for the initial solution walking randomly"""
         self.initial_solution = np.zeros((1, len(self.penalty_matrix)))
         rdn_initial_position = random.randint(0, self.penalty_matrix.shape[1] - 1)
         ones_list = [rdn_initial_position]

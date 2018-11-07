@@ -31,6 +31,8 @@ class IteratedLS:
         self.max_time = max_time
         self.iterated_type = iterated_type
 
+        self.make_iterated_local_search()
+
     def make_iterated_local_search(self):
         if self.iterated_type == "new_clique":
             self.__do_local_search_iterated_with_new_clique()
