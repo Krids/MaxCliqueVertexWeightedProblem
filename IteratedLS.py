@@ -8,12 +8,11 @@ import numpy as np
 
 class IteratedLS:
 
-    def __init__(self, penalty_matrix, max_time, type_search, p=None, k=None, param=None, ls_type="best_improvement",
+    def __init__(self, penalty_matrix, max_time, type_search, p=None, k=None, ls_type="best_improvement",
                  iterated_type="new_clique", initial_solution_type="best"):
         self.penalty_matrix = penalty_matrix
         self.is_ = InitialSolution(penalty_matrix, initial_solution_type)
         self.ls_type = ls_type
-        self.param = param
         self.p = p
         self.k = k
         self.type_search = type_search
@@ -24,7 +23,7 @@ class IteratedLS:
             self.solution = ls.solution.solution
         else:
             rdn_ls = RandomLS(self.is_.get_initial_solution(), penalty_matrix, p,
-                              k, max_time, param)
+                              k, max_time, param=ls_type)
             rdn_ls.do_random_local_search()
             self.value = rdn_ls.solution.value
             self.solution = rdn_ls.solution.solution
@@ -53,7 +52,7 @@ class IteratedLS:
                     self.best_solution = self.solution
                     self.value = local_search.solution.value
             else:
-                rdn_ls = RandomLS(self.solution, self.penalty_matrix, self.p, self.k, self.max_time, self.param)
+                rdn_ls = RandomLS(self.solution, self.penalty_matrix, self.p, self.k, self.max_time, param=self.ls_type)
                 rdn_ls.do_random_local_search()
                 if rdn_ls.solution.value >= self.value:
                     self.best_solution = self.solution
@@ -76,7 +75,7 @@ class IteratedLS:
                     self.best_solution = self.solution
                     self.value = local_search.solution.value
             else:
-                rdn_ls = RandomLS(self.solution, self.penalty_matrix, self.p, self.k, self.max_time, self.param)
+                rdn_ls = RandomLS(self.solution, self.penalty_matrix, self.p, self.k, self.max_time, param=self.ls_type)
                 rdn_ls.do_random_local_search()
                 if rdn_ls.solution.value >= self.value:
                     self.best_solution = self.solution

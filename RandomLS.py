@@ -13,24 +13,31 @@ class RandomLS:
         self.k = k
         self.max_time = max_time
         self.solution = Solution(initial_solution, penalty_matrix)
-        self.best_solution = self.solution
+        self.best_solution = self.solution.solution
+        self.value = self.solution.value
 
     def do_random_local_search(self):
-        pertubation = np.zeros((1, len(self.solution.solution)))
-
+        perturbation = np.random.randint(0, self.solution.solution.shape[1] - 1, self.k)
         end_time = datetime.datetime.now() + datetime.timedelta(minutes=self.max_time)
         while True:
             if datetime.datetime.now() >= end_time:
                 break
 
-        if random.random() <= self.p:
-            #TODO arrumar a pertubação
-            pertubation[0] = np.random.binomial(len(self.solution.solution), 0.5)
-        else:
-            if self.param == "first_improvement":
-                self.__first_improvement()
+            if random.random() <= self.p:
+                for i, x in enumerate(perturbation):
+                    if self.solution.solution[0, x] == 1:
+                        self.solution.solution[0, x] = 0
+                    else:
+                        self.solution.solution[0, x] = 1
             else:
-                self.__best_improvement()
+                if self.param == "first_improvement":
+                    self.__first_improvement()
+                else:
+                    self.__best_improvement()
+
+            if self.solution.value >= self.value:
+                self.best_solution = self.solution.solution
+                self.value = self.solution.value
 
     def __first_improvement(self):
         """ Make a first improvement move on the solution"""
