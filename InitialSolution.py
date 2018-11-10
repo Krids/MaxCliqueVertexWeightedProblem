@@ -40,7 +40,7 @@ class InitialSolution:
     def __get_random_clique_initial_solution(self):
         """ Return a random clique for the initial solution"""
         self.initial_solution = np.zeros((1, len(self.penalty_matrix)))
-        rdn_initial_position = random.randint(0, self.penalty_matrix.shape[0] + 1)
+        rdn_initial_position = random.randint(0, self.penalty_matrix.shape[0] - 1)
         ones_list = [rdn_initial_position]
         start = 0
         self.initial_solution[0, rdn_initial_position] = 1
@@ -61,9 +61,9 @@ class InitialSolution:
     def __get_random_clique_initial_solution_with_random_start(self):
         """ Return a random clique for the initial solution but with random start point"""
         self.initial_solution = np.zeros((1, len(self.penalty_matrix)))
-        rdn_initial_position = random.randint(0, self.penalty_matrix.shape[0] + 1)
+        rdn_initial_position = random.randint(0, self.penalty_matrix.shape[0] - 1)
         ones_list = [rdn_initial_position]
-        start = random.randint(0, self.penalty_matrix.shape[0] + 1)
+        start = random.randint(0, self.penalty_matrix.shape[0] - 1)
         startpoint = start
         count = 0
         self.initial_solution[0, rdn_initial_position] = 1
