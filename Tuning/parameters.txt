@@ -1,0 +1,6 @@
+# 1:            2:                   3: 4:      5:
+#param1                "--param1 "                i  (1, 10) | mode %in% c("x1", "x2")
+type_search            ""  c  ("local_search", "rdn_ls")
+ls_type                ""  c  ("best_improvement", "first_improvement")
+iterated_type          ""  c  ("new_clique", "clique_combination")
+initial_solution_type  ""  c  ("ris", "eis", "rcis", "rcisrs")

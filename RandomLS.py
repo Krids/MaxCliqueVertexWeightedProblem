@@ -9,8 +9,8 @@ class RandomLS:
 
     def __init__(self, initial_solution, penalty_matrix, p, k, max_time, param):
         self.param = param
-        self.p = p
-        self.k = k
+        self.p = p if p is not None else 0.3
+        self.k = k if k is not None else 10
         self.max_time = max_time
         self.solution = Solution(initial_solution, penalty_matrix)
         self.best_solution = self.solution.solution
