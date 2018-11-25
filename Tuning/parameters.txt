@@ -4,3 +4,5 @@ type_search            ""  c  ("local_search", "rdn_ls")
 ls_type                ""  c  ("best_improvement", "first_improvement")
 iterated_type          ""  c  ("new_clique", "clique_combination")
 initial_solution_type  ""  c  ("ris", "eis", "rcis", "rcisrs")
+p                      ""  r  (0.01,1.0)  | type_search == "rdn_ls"
+k                      ""  i  (1,100) | type_search == "rdn_ls"

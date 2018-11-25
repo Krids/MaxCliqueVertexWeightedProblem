@@ -18,8 +18,16 @@ type_search = sys.argv[5]
 ls_type = sys.argv[6]
 iterated_type = sys.argv[7]
 initial_solution_type = sys.argv[8]
+k = None
+p = None
 
-iterated_ls = IteratedLS(penalty_matrix=penalty_matrix, max_time=1, type_search=type_search, ls_type=ls_type, iterated_type=iterated_type, initial_solution_type=initial_solution_type)
+# Chamada do Random Local Search possui dois parâmetros a mais: "p" e "k"
+if len(sys.argv) == 11:
+    p = float(sys.argv[9])
+    k = int(sys.argv[10])
+
+iterated_ls = IteratedLS(penalty_matrix=penalty_matrix, max_time=1, type_search=type_search, ls_type=ls_type, 
+                         iterated_type=iterated_type, initial_solution_type=initial_solution_type, k=k, p=p)
 iterated_ls.make_iterated_local_search()
 
 print(iterated_ls.value)

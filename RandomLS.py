@@ -9,15 +9,16 @@ class RandomLS:
 
     def __init__(self, initial_solution, penalty_matrix, p, k, max_time, param):
         self.param = param
-        self.p = p if p is not None else 0.3
-        self.k = k if k is not None else 10
         self.max_time = max_time
         self.solution = Solution(initial_solution, penalty_matrix)
         self.best_solution = self.solution.solution
         self.value = self.solution.value
 
+        self.p = p if p is not None else 0.3
+        self.k = int((k / 100) * self.solution.solution.shape[1] - 1) if k is not None else 10
+
     def do_random_local_search(self):
-        perturbation = np.random.randint(0, self.solution.solution.shape[1] - 1, self.k)
+        perturbation = np.random.randint(0,  self.solution.solution.shape[1] - 1, self.k)
         end_time = datetime.datetime.now() + datetime.timedelta(minutes=self.max_time)
         while True:
             if datetime.datetime.now() >= end_time:
